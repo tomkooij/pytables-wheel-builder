@@ -1,7 +1,8 @@
 environment:
 
-  # better change to tag
-  COMMIT_HASH: 2bcd09459fd9c4efdbad66dc67b9e7e1c346a1a4
+  # commit hash to checkout
+  # better change to tag. Use master branch for now.
+  COMMIT_HASH: master
 
   # Make setup.py include conda specific dll's in wheels
   BUILDWHEEL: True
