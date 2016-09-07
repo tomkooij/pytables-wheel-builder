@@ -69,3 +69,13 @@ test_script:
 artifacts:
   # download wheels
   - path: PyTables\dist\*
+
+deploy:
+  release: tables-v$(appveyor_build_version)
+  description: 'Wheels build by pytables-wheel-builder'
+  provider: GitHub
+  auth_token:
+    secure: /FbPeXk4buZbYZ2f1XYxpR5a7W6LeZvb9Fkh8qxo83u17Bq8SyY69eMiJOYLNmgT
+  artifact: PyTables\dist\*.whl
+  draft: false
+  prerelease: false
