@@ -53,8 +53,8 @@ install:
   - cmd: git clone https://github.com/PyTables/PyTables.git
   - cmd: cd PyTables
   - cmd: git checkout %BRANCH_NAME%
-  # save git commit hash in COMMIT_HASH
-  - cmd: git log -1 -pretty=%h >COMMIT_HASH
+  # save git release and commit hash in COMMIT_HASH
+  - cmd: git describe >COMMIT_HASH
   - cmd: set /p COMMIT_HASH=<COMMIT_HASH
   # Make sure the wheel works:
   # Build wheel and install using pip. 
