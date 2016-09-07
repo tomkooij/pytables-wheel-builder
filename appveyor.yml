@@ -72,7 +72,7 @@ test_script:
 artifacts:
   # download wheels
   - path: PyTables\dist\*
-  - name: wheel
+    name: wheel
     
 deploy:
   release: tables-v$(COMMIT_HASH)-b$(appveyor_build_version)
