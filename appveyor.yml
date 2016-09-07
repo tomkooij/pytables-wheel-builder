@@ -75,14 +75,15 @@ artifacts:
     name: wheel
     
 deploy:
-  release: tables-$(COMMIT_HASH)-b$(appveyor_build_version)
+  release: tables-$(COMMIT_HASH)
   description: 'Wheels build by pytables-wheel-builder'
   provider: GitHub
   auth_token:
     secure: /FbPeXk4buZbYZ2f1XYxpR5a7W6LeZvb9Fkh8qxo83u17Bq8SyY69eMiJOYLNmgT
   artifact: wheel
-  draft: false
-  prerelease: false
+  draft: true
+  prerelease: true
+  force_update: true
 
 # deployment *creates* a new GitHub tag. So do not build on tags.
 # building tags causes an infinite build loop.
