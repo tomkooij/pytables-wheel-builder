@@ -12,7 +12,7 @@ environment:
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
     # See: http://stackoverflow.com/a/13751649/163740
     # From: https://github.com/astropy/ci-helpers/blob/master/appveyor/windows_sdk.cmd
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci\\appveyor\\windows_sdk.cmd"
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C %APPVEYOR_BUILD_FOLDER%\\ci\\appveyor\\windows_sdk.cmd"
 
   matrix:
 #    - PYTHON: "C:\\Miniconda"
