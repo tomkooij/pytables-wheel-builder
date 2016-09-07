@@ -1,8 +1,8 @@
 environment:
 
-  # commit hash to checkout
+  # commit to checkout
   # better change to tag. Use branch for now.
-  COMMIT_HASH: release-3.3
+  BRANCH_NAME: release-3.3
 
   # Make setup.py include conda specific dll's in wheels
   BUILDWHEEL: True
@@ -52,7 +52,10 @@ install:
   # fetch pytables, checkout commit to build
   - cmd: git clone https://github.com/PyTables/PyTables.git
   - cmd: cd PyTables
-  - cmd: git checkout %COMMIT_HASH%
+  - cmd: git checkout %BRANCH_NAME%
+  # save git commit hash in COMMIT_HASH
+  - cmd: git log -1 -pretty=%h >COMMIT_HASH
+  - cmd: set /p COMMIT_HASH=<COMMIT_HASH
   # Make sure the wheel works:
   # Build wheel and install using pip. 
   - "%CMD_IN_ENV% python setup.py bdist_wheel"
@@ -71,7 +74,7 @@ artifacts:
   - path: PyTables\dist\*
 
 deploy:
-  release: tables-v$(appveyor_build_version)
+  release: tables-v$(COMMIT_HASH)-b$(appveyor_build_version)
   description: 'Wheels build by pytables-wheel-builder'
   provider: GitHub
   auth_token:
