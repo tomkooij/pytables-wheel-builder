@@ -1,8 +1,9 @@
 environment:
 
-  # commit to checkout
-  # better change to tag. Use branch for now.
-  BRANCH_NAME: release-3.3
+  # repo/tag to checkout
+  REPO_NAME: https://github.com/tomkooij/PyTables.git
+  BRANCH_NAME: master
+  TAG_NAME: v3.3.0
 
   # Make setup.py include conda specific dll's in wheels
   BUILDWHEEL: True
@@ -45,14 +46,17 @@ install:
   - powershell .\\ci\\appveyor\\install.ps1   
   - powershell .\\ci\\appveyor\\missing-headers.ps1
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PYTHON%\\Library\\bin;%PATH%"
-  - cmd: conda install --yes numexpr cython hdf5 bzip2
+  - cmd: conda install --yes numexpr cython bzip2
+  # instal hdf5 from conda-forge to get the latest version.
+  # anaconda still has 1.8.16
+  - cmd: conda install --yes -c conda-forge hdf5=1.8.17
   - cmd: set HDF5_DIR="%PYTHON%\\Library\\"
   - cmd: set BZIP2_DIR="%PYTHON%\\Library\\" 
   - cmd: SET LIBRARY_PATH="%HDF5_DIR%\\lib"
-  # fetch pytables, checkout commit to build
-  - cmd: git clone https://github.com/PyTables/PyTables.git
+    # fetch pytables, checkout tag to build
+  - cmd: git clone %REPO_NAME%
   - cmd: cd PyTables
-  - cmd: git checkout %BRANCH_NAME%
+  - cmd: git checkout tags/%TAG_NAME%
   # save git release and commit hash in COMMIT_HASH
   - cmd: git describe >COMMIT_HASH
   - cmd: set /p COMMIT_HASH=<COMMIT_HASH
@@ -86,6 +90,6 @@ deploy:
   force_update: true
 
 # deployment *creates* a new GitHub tag. So do not build on tags.
-# building tags causes an infinite build loop.
+# building tags may cause an infinite build loop when each new tag is unique.
 skip_tags: true
 
