@@ -43,7 +43,7 @@ environment:
 install:
   # this installs the appropriate Miniconda (Py2/Py3, 32/64 bit),
   # as well as pip, conda-build, and the binstar CLI
-  - powershell .\\ci\\appveyor\\install.ps1   
+  #- powershell .\\ci\\appveyor\\install.ps1   
   - powershell .\\ci\\appveyor\\missing-headers.ps1
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PYTHON%\\Library\\bin;%PATH%"
   - cmd: conda install --yes numexpr cython bzip2
@@ -51,7 +51,7 @@ install:
   # anaconda still has 1.8.16
   - cmd: conda install --yes -c conda-forge hdf5=1.8.17
   - cmd: set HDF5_DIR="%PYTHON%\\Library\\"
-  - cmd: set BZIP2_DIR="%PYTHON%\\Library\\" 
+  - cmd: set BZIP2_DIR="%PYTHON%\\Library\\"
   - cmd: SET LIBRARY_PATH="%HDF5_DIR%\\lib"
     # fetch pytables, checkout tag to build
   - cmd: git clone %REPO_NAME%
@@ -61,7 +61,7 @@ install:
   - cmd: git describe >COMMIT_HASH
   - cmd: set /p COMMIT_HASH=<COMMIT_HASH
   # Make sure the wheel works:
-  # Build wheel and install using pip. 
+  # Build wheel and install using pip.
   - "%CMD_IN_ENV% python setup.py bdist_wheel"
   - cmd: dir /B dist\*whl >WHEEL
   - cmd: set /p WHEEL=<WHEEL
@@ -77,7 +77,7 @@ artifacts:
   # download wheels
   - path: PyTables\dist\*
     name: wheel
-    
+
 deploy:
   release: tables-$(COMMIT_HASH)
   description: 'Wheels build by pytables-wheel-builder'
@@ -92,4 +92,3 @@ deploy:
 # deployment *creates* a new GitHub tag. So do not build on tags.
 # building tags may cause an infinite build loop when each new tag is unique.
 skip_tags: true
-
